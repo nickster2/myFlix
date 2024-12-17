@@ -1,18 +1,14 @@
 const express = require("express"); 
-    morgan = require("morgan");
-    fs = require("fs");
-    path = require("path");
+const morgan = require("morgan");
+const path = require("path");
 
 const app = express();
+
 app.use(morgan("common")); // Morgan to log requests.
-app.use(express.static("public")); // Serves static files from public folder in project directory.
+app.use(express.static(path.join(__dirname, "public"))); // Serves static files from public folder in project directory.
 
 app.get("/", (req, res) => {
     res.send("Welcome to myFlix!")
-});
-
-app.get("/documentation", (req, res) => {
-res.send("This is the documenation page for the myFlix API.");
 });
 
 const topMovies24 = [
