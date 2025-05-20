@@ -5,9 +5,17 @@
     <meta content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>DOCUMENTATION</title>
+    <style>
+      body { font-family: Arial, sans-serif; margin: 2rem; }
+      h1, h2, h3 { color: #333; }
+      table { border-collapse: collapse; width: 100%; margin-bottom: 2rem; }
+      th, td { border: 1px solid #ccc; padding: 10px; text-align: left; }
+      th { background-color: #f4f4f4; }
+      code, pre { background: #f9f9f9; padding: 5px; border-radius: 4px; display: block; }
+    </style>
   </head>
   <body>
-    <h1>Documentation Page</h1>
+    <h1>📘 myFlix API Documentation</h1>
     <p>
       I am creating an app called myFlix where I build the server-side component
       of a movies web application. The web application will provide users with
@@ -15,5 +23,134 @@
       will be able to sign up, update their personal information, and create a
       list of their favorite movies
     </p>
+
+    <!-- Return a list of ALL movies to the user;
+
+    Return data (description, genre, director, image URL, whether it’s featured or not) about a single movie by title to the user;
+
+  Return data about a genre (description) by name/title (e.g., “Thriller”);
+
+  Return data about a director (bio, birth year, death year) by name;
+
+  Allow new users to register;
+
+  Allow users to update their user info (username);
+
+   users to add a movie to their list of favorites (showing only a text that a movie has been added—more on this later);
+
+  Allow users to remove a movie from their list of favorites (showing only a text that a movie has been removed—more on this later);
+
+  Allow existing users to deregister (showing only a text that a user email has been removed—more on this later). -->
+  <h2>📦 Movie Endpoints</h2>
+
+  <h3>GET /movies</h3>
+  <p><strong>Description:</strong> Returns a list of all movies.</p>
+  <p><strong>Method:</strong> GET</p>
+  <p><strong>URL:</strong> <code>/movies</code></p>
+  <p><strong>Query Parameters:</strong> None</p>
+  <p><strong>Request Body:</strong> N/A</p>
+  <p><strong>Response:</strong></p>
+  <pre><code>[
+  {
+    "Ranking": "1",
+    "Title": "Nickel Boys",
+    "Year": 2024,
+    "Genre": { "Name": "Drama", "Description": "..." },
+    "Director": { "Name": "RaMell Ross", "Birth": "1977-01-01", "Bio": "..." }
+  },
+  ...
+]</code></pre>
+
+  <h3>GET /movies/:title</h3>
+  <p><strong>Description:</strong> Returns a movie by title.</p>
+  <p><strong>Method:</strong> GET</p>
+  <p><strong>URL:</strong> <code>/movies/:title</code></p>
+  <p><strong>Query Parameters:</strong> <code>title</code> – the movie title</p>
+  <p><strong>Response:</strong> Same format as single movie object above.</p>
+
+  <h3>GET /movies/genre/:genreName</h3>
+  <p><strong>Description:</strong> Returns details about a genre.</p>
+  <p><strong>Method:</strong> GET</p>
+  <p><strong>URL:</strong> <code>/movies/genre/:genreName</code></p>
+  <p><strong>Query Parameters:</strong> <code>genreName</code></p>
+  <p><strong>Response:</strong></p>
+  <pre><code>{
+  "Name": "Drama",
+  "Description": "..."
+}</code></pre>
+
+  <h3>GET /movies/directors/:directorName</h3>
+  <p><strong>Description:</strong> Returns information about a director.</p>
+  <p><strong>Method:</strong> GET</p>
+  <p><strong>URL:</strong> <code>/movies/directors/:directorName</code></p>
+  <p><strong>Query Parameters:</strong> <code>directorName</code></p>
+  <p><strong>Response:</strong></p>
+  <pre><code>{
+  "Name": "Sean Baker",
+  "Birth": "1971-02-26",
+  "Bio": "..."
+}</code></pre>
+
+  <h2>👤 User Endpoints</h2>
+
+  <h3>GET /users</h3>
+  <p><strong>Description:</strong> Returns all users.</p>
+  <p><strong>Method:</strong> GET</p>
+  <p><strong>URL:</strong> <code>/users</code></p>
+  <p><strong>Response:</strong></p>
+  <pre><code>[
+  {
+    "id": 1,
+    "name": "John",
+    "favoriteMovies": []
+  },
+  ...
+]</code></pre>
+
+  <h3>POST /users</h3>
+  <p><strong>Description:</strong> Creates a new user.</p>
+  <p><strong>Method:</strong> POST</p>
+  <p><strong>Request Body Example:</strong></p>
+  <pre><code>{
+  "name": "Alice"
+}</code></pre>
+  <p><strong>Response:</strong> Created user object with ID</p>
+
+  <h3>PUT /users/:id</h3>
+  <p><strong>Description:</strong> Updates an existing user's name.</p>
+  <p><strong>Method:</strong> PUT</p>
+  <p><strong>Query Parameters:</strong> <code>id</code></p>
+  <p><strong>Request Body Example:</strong></p>
+  <pre><code>{
+  "name": "New Name"
+}</code></pre>
+  <p><strong>Response:</strong> Updated user object</p>
+
+  <h3>PUT /users/:id/:movieTitle</h3>
+  <p><strong>Description:</strong> Adds a movie to a user's favoriteMovies.</p>
+  <p><strong>Method:</strong> PUT</p>
+  <p><strong>Query Parameters:</strong> <code>id</code>, <code>movieTitle</code></p>
+  <p><strong>Response:</strong> Confirmation message</p>
+
+  <h3>DELETE /users/:id/:movieTitle</h3>
+  <p><strong>Description:</strong> Removes a movie from a user's favoriteMovies.</p>
+  <p><strong>Method:</strong> DELETE</p>
+  <p><strong>Query Parameters:</strong> <code>id</code>, <code>movieTitle</code></p>
+  <p><strong>Response:</strong> Confirmation message</p>
+
+  <h3>DELETE /users/:id</h3>
+  <p><strong>Description:</strong> Deletes a user by ID.</p>
+  <p><strong>Method:</strong> DELETE</p>
+  <p><strong>Query Parameters:</strong> <code>id</code></p>
+  <p><strong>Response:</strong> Confirmation message</p>
+
+  <h2>⚠️ Error Handling</h2>
+  <p>All invalid requests return:</p>
+  <pre><code>Status: 400
+Message: "There is no such [resource]"</code></pre>
+
+  <p>Server errors return:</p>
+  <pre><code>Status: 500
+Message: "Uh oh.. Something broke!"</code></pre>
   </body>
 </html>
